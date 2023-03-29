@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="FuelMeasurement.Common.DialogModule.Views.InputTextDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"  
+             mc:Ignorable="d" 
+             >
+
+
+    <!--xmlns:local="clr-namespace:FuelMeasurement.Client"-->
+    <UserControl.Resources>
+        
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Style x:Key="ButtonOk" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonStyle}">
+            <Setter Property="Content" Value="Ок" />
+            <Setter Property="IsDefault" Value="True" />
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=(Validation.HasError), ElementName=InputText}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="True"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ButtonCancel" TargetType="{x:Type Button}" BasedOn="{StaticResource DialogButtonStyle}">
+            <Setter Property="Content" Value="Отмена" />
+            <Setter Property="IsCancel" Value="True" />
+        </Style>
+
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,0" Orientation="Horizontal">
+            <iconPacks:PackIconBoxIcons  Kind="SolidKeyboard" Width="30" Height="30" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{StaticResource MahApps.Brushes.Accent}"/>
+            <TextBlock Text="{Binding Title}"  VerticalAlignment="Center"
+                    Style="{DynamicResource DialogTitleStyle}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,0" Orientation="Vertical">
+            <TextBlock Style="{DynamicResource DialogMessageTextStyle}" FontWeight="Bold"
+                   TextWrapping="Wrap" Margin="0,0,0,5"
+                   Text="{Binding InputLabel}" 
+                   />
+
+            <TextBox Style="{DynamicResource MahApps.Styles.TextBox}"
+                 x:Name="InputText" MinWidth="450" MaxWidth="450"
+                 Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="14"
+                 />
+
+            <TextBlock Style="{DynamicResource DialogMessageTextStyle}" FontWeight="Bold"
+                   TextWrapping="Wrap" Margin="0,15,0,5"
+                   Text="{Binding ExtendedInputLabel}"
+                   Visibility="{Binding IsExtendedInputShown, Converter={StaticResource BoolToVisibilityConverter}}"
+                       />
+
+            <TextBox Style="{DynamicResource MahApps.Styles.TextBox}" MinWidth="450" MaxWidth="450"
+                 Text="{Binding ExtendedInputText, UpdateSourceTrigger=PropertyChanged}"
+                 Visibility="{Binding IsExtendedInputShown, Converter={StaticResource BoolToVisibilityConverter}}"
+                     FontSize="14"
+                 />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,10" Orientation="Horizontal">
+
+            <Button Margin="0,0,25,0"
+                Style="{StaticResource ButtonOk}"
+                Command="{Binding AcceptCommand}" 
+                />
+
+            <Button Margin="25,0,0,0"
+                Style="{StaticResource ButtonCancel}"
+                Command="{Binding CancelCommand}" 
+                />
+        </StackPanel>
+    </Grid>
+    
+</UserControl>

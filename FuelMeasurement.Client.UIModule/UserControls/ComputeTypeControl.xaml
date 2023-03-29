@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="FuelMeasurement.Client.UIModule.UserControls.ComputeTypeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:compute="clr-namespace:FuelMeasurement.Common.Enums;assembly=FuelMeasurement.Common"
+             xmlns:converter="clr-namespace:FuelMeasurement.Client.UIModule.Infrastructure.Converters"
+             xmlns:local="clr-namespace:FuelMeasurement.Client.UIModule.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converter:ComputeTypeConverter x:Key="ComputeTypeConverter"/>
+    </UserControl.Resources>
+    
+    <Grid>
+        <GroupBox  Grid.Row="1" Header="Режим расчета" Style="{StaticResource MahApps.Styles.GroupBox}">
+            <ScrollViewer>
+                <StackPanel  Orientation="Vertical">
+                    <!--IsEnabled="{Binding ErrorsUsualEnabled, NotifyOnSourceUpdated=True, Mode=TwoWay}"-->
+                    <RadioButton Content="МПИ (Общий режим)"
+                                 x:Name="UsualErrorsButton"
+                                 IsChecked="{Binding ComputeType, Converter={StaticResource ComputeTypeConverter}, ConverterParameter={x:Static compute:ComputeTypeEnum.ErrorsUsual}}"
+                                 Style="{StaticResource MahApps.Styles.RadioButton}"/>
+                    <RadioButton Content="МПИ (Режим заправки)"
+                                 x:Name="UsualErrorsInButton"
+                                 IsChecked="{Binding ComputeType, Converter={StaticResource ComputeTypeConverter}, ConverterParameter={x:Static compute:ComputeTypeEnum.ErrorsFuelIn}}"
+                                 Style="{StaticResource MahApps.Styles.RadioButton}"/>
+                    <RadioButton Content="МПИ (Режим выработки)"
+                                 x:Name="UsualErrorsOutButton"
+                                 IsChecked="{Binding ComputeType, Converter={StaticResource ComputeTypeConverter}, ConverterParameter={x:Static compute:ComputeTypeEnum.ErrorsFuelOut}}"
+                                 Style="{StaticResource MahApps.Styles.RadioButton}"/>
+                    <RadioButton Content="МПИ по общему зеркалу топлива (Режим заправки/общий)"
+                                 x:Name="MirrorErrorsCommonInButton"
+                                 IsChecked="{Binding ComputeType, Converter={StaticResource ComputeTypeConverter}, ConverterParameter={x:Static compute:ComputeTypeEnum.MirrorErrorsCommonIn}}"
+                                 Style="{StaticResource MahApps.Styles.RadioButton}"/>
+                    <RadioButton Content="МПИ по общему зеркалу топлива (Режим выработки)"
+                                 x:Name="MirrorErrorsOutButton"
+                                 IsChecked="{Binding ComputeType, Converter={StaticResource ComputeTypeConverter}, ConverterParameter={x:Static compute:ComputeTypeEnum.MirrorErrorsOut}}"
+                                 Style="{StaticResource MahApps.Styles.RadioButton}"/>
+                    <RadioButton Content="Опорная МПИ (Общий режим)"
+                                 x:Name="ReferencedErrorsButton"
+                                 IsChecked="{Binding ComputeType, Converter={StaticResource ComputeTypeConverter}, ConverterParameter={x:Static compute:ComputeTypeEnum.ReferencedErrorsUsual}}"
+                                 Style="{StaticResource MahApps.Styles.RadioButton}"/>
+                    <RadioButton Content="Опорная МПИ (Режим заправки)"
+                                 x:Name="ReferencedErrorsInButton"
+                                 IsChecked="{Binding ComputeType, Converter={StaticResource ComputeTypeConverter}, ConverterParameter={x:Static compute:ComputeTypeEnum.ReferencedErrorsIn}}"
+                                 Style="{StaticResource MahApps.Styles.RadioButton}"/>
+                    <RadioButton Content="Опорная МПИ (Режим выработки)"
+                                 x:Name="ReferencedErrorsOutButton"
+                                 IsChecked="{Binding ComputeType, Converter={StaticResource ComputeTypeConverter}, ConverterParameter={x:Static compute:ComputeTypeEnum.ReferencedErrorsOut}}"
+                                 Style="{StaticResource MahApps.Styles.RadioButton}"/>
+                </StackPanel>
+            </ScrollViewer>
+        </GroupBox>
+        
+    </Grid>
+</UserControl>

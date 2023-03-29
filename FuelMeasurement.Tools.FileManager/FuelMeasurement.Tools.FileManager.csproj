@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!--<Nullable>enable</Nullable>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelMeasurement.Common.DialogServices\FuelMeasurement.Common.DialogModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Model.DTO\FuelMeasurement.Model.DTO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TEMP\" />
+  </ItemGroup>
+
+</Project>

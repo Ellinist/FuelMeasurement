@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <!--<ImplicitUsings>enable</ImplicitUsings>-->
+	<!--<Nullable>enable</Nullable>-->
+	<UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelMeasurement.Common\FuelMeasurement.Common.csproj" />
+  </ItemGroup>
+
+</Project>

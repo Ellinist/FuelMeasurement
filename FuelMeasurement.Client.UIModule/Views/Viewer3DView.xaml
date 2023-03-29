@@ -1,0 +1,1045 @@
+﻿<mah:MetroWindow
+    x:Class="FuelMeasurement.Client.UIModule.Views.Viewer3DView"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:hx="http://helix-toolkit.org/wpf/SharpDX"
+    xmlns:compute="clr-namespace:FuelMeasurement.Common.Enums;assembly=FuelMeasurement.Common"
+    xmlns:model3D="clr-namespace:FuelMeasurement.Client.UIModule.Models"
+    xmlns:converter="clr-namespace:FuelMeasurement.Client.UIModule.Infrastructure.Converters"
+    xmlns:userControls="clr-namespace:FuelMeasurement.Client.UIModule.UserControls"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:prismCommand="clr-namespace:Prism.Commands;assembly=Prism" 
+    xmlns:viewmodels="clr-namespace:FuelMeasurement.Client.UIModule.ViewModels" 
+    d:DataContext="{d:DesignInstance Type=viewmodels:Viewer3DViewModel}"
+    mc:Ignorable="d"
+    Title="{Binding Title}"
+    WindowState="Maximized"
+    Width="1200"
+    Height="800"
+    x:Name="View">
+
+    <mah:MetroWindow.Resources>
+
+        <converter:ComputeTypeConverter x:Key="ComputeTypeConverter"/>
+
+        <Style TargetType="TabItem" x:Key="TabItemStyle">
+            <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Text}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid>
+                            <Border Name="Border" Margin="0,0,0,0" Background="Transparent"
+                                    BorderBrush="Black" BorderThickness="1,1,1,1" CornerRadius="5">
+                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"
+                                                  ContentSource="Header" Margin="12,2,12,2"
+                                                  RecognizesAccessKey="True">
+                                    <ContentPresenter.LayoutTransform>
+                                        <RotateTransform Angle="0" />
+                                    </ContentPresenter.LayoutTransform>
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Panel.ZIndex" Value="100" />
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource MahApps.Brushes.WindowTitle}"/>
+                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0"/>
+                            </Trigger>
+                            <!--<Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="DarkRed" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                                <Setter Property="Foreground" Value="DarkGray" />
+                            </Trigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style TargetType="TreeView" x:Key="TreeViewExplorerPanel">
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="0.0" Color="Transparent"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
+
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Transparent" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+            </Style.Resources>
+
+            <Style.Triggers>
+
+                <Trigger Property="IsMouseDirectlyOver"    Value="True">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Background"  Value="Transparent" />
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Trigger>
+
+                <Trigger Property="IsMouseOver"    Value="True">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Background"  Value="Transparent" />
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Trigger>
+
+                <Trigger Property="IsSelected"     Value="True">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Background"  Value="White"/>
+                    <Setter Property="Foreground"  Value="Black"/>
+                    <Setter Property="FontWeight"  Value="Bold"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+        <DrawingImage x:Key="show_compressedDrawingImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M256,96C144.341,96 47.559,161.021 0,256 47.559,350.979 144.341,416 256,416 367.656,416 464.439,350.979 512,256 464.441,161.021 367.656,96 256,96z M382.225,180.852C412.307,200.039 437.797,225.739 456.944,256 437.798,286.261 412.305,311.961 382.225,331.148 344.428,355.257 300.779,368 256,368 211.22,368 167.572,355.257 129.775,331.148 99.695,311.96 74.205,286.26 55.058,256 74.204,225.738 99.695,200.038 129.775,180.852A235.143,235.143,0,0,1,135.704,177.202C130.725,190.866 128,205.613 128,221 128,291.691 185.308,349 256,349 326.691,349 384,291.691 384,221 384,205.613 381.275,190.866 376.297,177.201A240.633,240.633,0,0,1,382.225,180.852z M256,205C256,231.51 234.51,253 208,253 181.49,253 160,231.51 160,205 160,178.49 181.49,157 208,157 234.51,157 256,178.49 256,205z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="navigate_compressedDrawingImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V32 H32 V0 H0 Z">
+                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M32,32z M0,0z M27.414,24.586L22.337,19.509C23.386,17.928 24,16.035 24,14 24,8.486 19.514,4 14,4 8.486,4 4,8.486 4,14 4,19.514 8.486,24 14,24 16.035,24 17.928,23.386 19.509,22.337L24.586,27.414C25.366,28.195 26.634,28.195 27.414,27.414 28.195,26.633 28.195,25.367 27.414,24.586z M7,14C7,10.14 10.14,7 14,7 17.86,7 21,10.14 21,14 21,17.86 17.86,21 14,21 10.14,21 7,17.86 7,14z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <Style 
+            x:Key="TankImageStatusStyle" 
+            TargetType="{x:Type Image}"  
+            >
+
+            <Setter Property="Source" Value="{StaticResource show_compressedDrawingImage}" />
+            <Setter Property="Opacity" Value=".15" />
+            <Style.Triggers>
+
+                <MultiDataTrigger>
+
+                    <MultiDataTrigger.Conditions>
+
+                        <Condition Binding="{Binding Visibility}" Value="Visible"/>
+
+                    </MultiDataTrigger.Conditions>
+
+                    <Setter Property="Opacity" Value="1" />
+
+                </MultiDataTrigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+        <Style 
+            x:Key="TankImageNavigateStyle" 
+            TargetType="{x:Type Image}"  
+            >
+
+            <Setter Property="Source" Value="{StaticResource navigate_compressedDrawingImage}" />
+            <Setter Property="Opacity" Value="1" />
+
+        </Style>
+
+        <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+
+            <Setter Property="FontSize" Value="14"/>
+
+        </Style>
+
+        <HierarchicalDataTemplate 
+            x:Key="TanksLevel">
+
+            <HierarchicalDataTemplate.ItemContainerStyle>
+
+                <Style BasedOn="{StaticResource TreeViewItemStyle}" TargetType="{x:Type TreeViewItem}"/>
+
+            </HierarchicalDataTemplate.ItemContainerStyle>
+
+            <StackPanel Orientation="Horizontal">
+
+                <Image Width="20" Margin="1 0 5 0" Style="{StaticResource TankImageStatusStyle}">
+
+                    <b:Interaction.Triggers>
+
+                        <b:EventTrigger EventName="PreviewMouseLeftButtonDown">
+
+                            <b:InvokeCommandAction Command="{Binding DataContext.SwitchTankVisibilityCommand, ElementName=View}" CommandParameter="{Binding Id}"/>
+
+                        </b:EventTrigger>
+
+                    </b:Interaction.Triggers>
+
+                </Image>
+
+                <Image Width="20" Margin="1 0 5 0" Style="{StaticResource TankImageNavigateStyle}">
+
+                    <b:Interaction.Triggers>
+
+                        <b:EventTrigger EventName="PreviewMouseLeftButtonDown">
+
+                            <b:InvokeCommandAction Command="{Binding DataContext.NavigateOnTankCommand, ElementName=View}" CommandParameter="{Binding Id}"/>
+
+                        </b:EventTrigger>
+
+                    </b:Interaction.Triggers>
+
+                </Image>
+
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TextBlockStyle}"/>
+
+            </StackPanel>
+
+        </HierarchicalDataTemplate>
+
+    </mah:MetroWindow.Resources>
+
+    <b:Interaction.Triggers>
+
+        <b:EventTrigger EventName="Loaded">
+
+            <b:CallMethodAction TargetObject="{Binding}" MethodName="WindowOnLoaded"/>
+
+        </b:EventTrigger>
+
+    </b:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              x:Name="Grid"
+              Height="Auto"
+              DataContext="{Binding .}">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <hx:Viewport3DX
+                x:Name="Viewport3Dx"
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                VerticalAlignment="Stretch"
+                ClipToBounds="True"
+
+                TextBrush="White"
+                BackgroundColor="LightBlue"
+                CoordinateSystemLabelForeground="DimGray"
+
+                MSAA="Maximum"
+                FXAALevel="Ultra"
+                SSAOQuality="High"
+            
+                EnableSSAO="True"
+                EnableDpiScale="True"
+
+                ShowCoordinateSystem="True"
+                IsCoordinateSystemMoverEnabled="False"
+
+                ShowViewCube="True"
+                IsViewCubeMoverEnabled="False"
+
+                InfiniteSpin="False"
+                ZoomAroundMouseDownPoint="{Binding ZoomAroundMouseDownPoint}"
+                RotateAroundMouseDownPoint="{Binding RotateAroundMouseDownPoint}"
+                IsChangeFieldOfViewEnabled="{Binding IsChangeFieldOfViewEnabled}"
+
+                IsZoomEnabled="True"
+                PinchZoomAtCenter="True"
+                IsPinchZoomEnabled="True"
+                
+                RenderOptions.EdgeMode="Unspecified"
+
+                ShowFrameDetails="True"
+                IsShadowMappingEnabled="True"
+                ZoomExtentsWhenLoaded="False"
+                ShowCameraTarget="True"
+                EnableCursorPosition="True"
+                
+                Camera="{Binding Camera}"
+                CameraRotationMode="Turnball"
+                CameraMode="WalkAround"
+                ModelUpDirection="0 1 0"
+                UpDownRotationSensitivity="0.5"
+                LeftRightRotationSensitivity="0.5"
+                LeftRightPanSensitivity="0.5"
+                RotationSensitivity="-0.1"
+                
+                EffectsManager="{Binding EffectsManager}"
+                ChangeFieldOfViewCursor="ScrollNS" 
+                PanCursor="Hand" 
+                RotateCursor="SizeAll" 
+                ZoomCursor="SizeNS" 
+                ZoomRectangleCursor="SizeNWSE"
+                ShowCameraInfo="True"
+                ZoomSensitivity="0.5"
+                CameraInertiaFactor="0.5"
+                >
+
+                <hx:Viewport3DX.InputBindings>
+                    <MouseBinding Gesture="RightClick"  Command="hx:ViewportCommands.Rotate" />
+                    <MouseBinding Gesture="MiddleClick" Command="hx:ViewportCommands.Pan"    />
+                    <KeyBinding Key="Delete" Command="{Binding RemoveSelectedSensorCommand}" />
+                </hx:Viewport3DX.InputBindings>
+
+                <b:Interaction.Triggers>
+
+                    <b:EventTrigger EventName="Loaded">
+
+                        <b:CallMethodAction TargetObject="{Binding}" MethodName="Viewport3DxOnLoaded"/>
+
+                    </b:EventTrigger>
+
+                    <b:EventTrigger EventName="CameraChanged">
+
+                        <b:CallMethodAction TargetObject="{Binding}" MethodName="CameraChanged"/>
+
+                    </b:EventTrigger>
+
+                    <b:EventTrigger EventName="MouseUp3D">
+
+                        <b:CallMethodAction TargetObject="{Binding}" MethodName="OnMouseUpHandler"/>
+
+                    </b:EventTrigger>
+
+                    <b:EventTrigger EventName="MouseMove3D">
+
+                        <b:CallMethodAction TargetObject="{Binding}" MethodName="OnMouseMove3DHandler"/>
+
+                    </b:EventTrigger>
+
+                    <b:EventTrigger EventName="MouseDown3D">
+
+                        <b:CallMethodAction TargetObject="{Binding}" MethodName="OnMouseMouseMouseDown3DHandler"/>
+
+                    </b:EventTrigger>
+
+                </b:Interaction.Triggers>
+
+                <hx:ShadowMap3D OrthoWidth="1000" />
+
+                <hx:DirectionalLight3D Direction="0, -500, 0" />
+
+                <hx:DirectionalLight3D Direction="0, 500, 0" />
+
+                <hx:DirectionalLight3D Direction="500, 0, 0" />
+
+                <hx:DirectionalLight3D Direction="-500, 0, 0" />
+
+                <hx:DirectionalLight3D Direction="0, 0, 500" />
+
+                <hx:DirectionalLight3D Direction="0, 0, -500" />
+
+                <hx:ItemsModel3D
+                    ItemsSource="{Binding InsideModelFuelTanks}"
+                    IsHitTestVisible="False"
+                    >
+
+                    <hx:ItemsModel3D.ItemTemplate>
+
+                        <DataTemplate DataType="model3D:InsideModelFuelTankMesh">
+
+                            <hx:CompositeModel3D
+                                Visibility="{Binding Visibility}"
+                                Transform="{Binding Transform}"
+                                AlwaysHittable="False"
+                                IsHitTestVisible="False"
+                                >
+
+                                <hx:MeshGeometryModel3D
+                                    Geometry="{Binding Geometry}"
+                                    Material="{Binding Material}"
+                                    CullMode="Back"
+                                    InvertNormal="False"
+                                    FrontCounterClockwise="False"
+                                    IsTransparent="True"
+                                    AlwaysHittable="False"
+                                    IsHitTestVisible="False"
+                                    />
+
+                                <hx:MeshGeometryModel3D
+                                    Geometry="{Binding Geometry}"
+                                    Material="{Binding Material2}"
+                                    CullMode="Front"
+                                    InvertNormal="False"
+                                    FrontCounterClockwise="False"
+                                    IsTransparent="True"
+                                    AlwaysHittable="False"
+                                    IsHitTestVisible="False"
+                                    />
+
+                            </hx:CompositeModel3D>
+
+                        </DataTemplate>
+
+                    </hx:ItemsModel3D.ItemTemplate>
+
+                </hx:ItemsModel3D>
+
+                <hx:ItemsModel3D
+                    ItemsSource="{Binding FuelTanks}">
+
+                    <hx:ItemsModel3D.ItemTemplate>
+
+                        <DataTemplate DataType="model3D:FuelTankMesh">
+
+                            <hx:CompositeModel3D
+                                Visibility="{Binding Visibility}"
+                                Transform="{Binding Transform}"
+                                >
+
+                                <hx:MeshGeometryModel3D
+                                    Geometry="{Binding Geometry}"
+                                    Material="{Binding Material}"
+                                    CullMode="Back"
+                                    InvertNormal="False"
+                                    FrontCounterClockwise="False"
+                                    IsTransparent="True"
+                                    />
+
+                                <hx:MeshGeometryModel3D
+                                    Geometry="{Binding Geometry}"
+                                    Material="{Binding Material2}"
+                                    CullMode="Front"
+                                    InvertNormal="False"
+                                    FrontCounterClockwise="False"
+                                    IsTransparent="True"
+                                    />
+
+                                <hx:BillboardTextModel3D
+                                    AlwaysHittable="False"
+                                    Geometry="{Binding Billboard}"
+                                    Visibility="{Binding VisibilityBillboard}"
+                                    FixedSize="True"
+                                    />
+
+                            </hx:CompositeModel3D>
+
+                        </DataTemplate>
+
+                    </hx:ItemsModel3D.ItemTemplate>
+
+                </hx:ItemsModel3D>
+
+                <hx:ItemsModel3D
+                    ItemsSource="{Binding FuelSensors}">
+
+                    <hx:ItemsModel3D.ItemTemplate>
+
+                        <DataTemplate DataType="model3D:FuelSensorMesh">
+
+                            <hx:CompositeModel3D
+                                Visibility="{Binding Visibility}"
+                                Transform="{Binding Transform}"
+                                >
+
+                                <hx:MeshGeometryModel3D
+                                    Geometry="{Binding Geometry}"
+                                    Material="{Binding Material}"
+                                    CullMode="Back"
+                                    InvertNormal="False"
+                                    FrontCounterClockwise="False"
+                                    IsTransparent="False"
+                                    />
+
+                                <hx:MeshGeometryModel3D
+                                    Geometry="{Binding Geometry}"
+                                    Material="{Binding Material2}"
+                                    CullMode="Front"
+                                    InvertNormal="False"
+                                    FrontCounterClockwise="False"
+                                    IsTransparent="False"
+                                    />
+
+                                <hx:BillboardTextModel3D
+                                    AlwaysHittable="False"
+                                    Geometry="{Binding Billboard}"
+                                    Visibility="{Binding VisibilityBillboard}"
+                                    FixedSize="True"
+                                    />
+
+                            </hx:CompositeModel3D>
+
+                        </DataTemplate>
+
+                    </hx:ItemsModel3D.ItemTemplate>
+
+                </hx:ItemsModel3D>
+
+                <hx:ItemsModel3D
+                    ItemsSource="{Binding CoordinateLines}"
+                    AlwaysHittable="False"  
+                    IsHitTestVisible="False"
+                    >
+
+                    <hx:ItemsModel3D.ItemTemplate>
+
+                        <DataTemplate DataType="model3D:CoordinateLineMesh">
+
+                            <hx:CompositeModel3D
+                                Visibility="{Binding Visibility}"
+                                Transform="{Binding Transform}"
+                                AlwaysHittable="False"  
+                                IsHitTestVisible="False"
+                                >
+
+                                <hx:MeshGeometryModel3D
+                                    Geometry="{Binding Geometry}"
+                                    Material="{Binding Material}"
+                                    AlwaysHittable="False"  
+                                    IsHitTestVisible="False"
+                                    />
+
+                                <hx:BillboardTextModel3D
+                                    AlwaysHittable="False"
+                                    Geometry="{Binding Billboard}"
+                                    Visibility="{Binding VisibilityBillboard}"
+                                    FixedSize="True"
+                                    />
+
+                            </hx:CompositeModel3D>
+
+                        </DataTemplate>
+
+                    </hx:ItemsModel3D.ItemTemplate>
+
+                </hx:ItemsModel3D>
+
+                <hx:ItemsModel3D
+                    ItemsSource="{Binding GridLines}"
+                    AlwaysHittable="False"  
+                    IsHitTestVisible="False">
+
+                    <hx:ItemsModel3D.ItemTemplate>
+
+                        <DataTemplate DataType="model3D:GridMesh">
+
+                            <hx:CompositeModel3D
+                                Visibility="{Binding Visibility}"
+                                Transform="{Binding Transform}"
+                                AlwaysHittable="False"  
+                                IsHitTestVisible="False"
+                                >
+
+                                <hx:MeshGeometryModel3D
+                                    Geometry="{Binding Geometry}"
+                                    Material="{Binding Material}"
+                                    AlwaysHittable="False"  
+                                    IsHitTestVisible="False"
+                                    />
+
+                            </hx:CompositeModel3D>
+
+                        </DataTemplate>
+
+                    </hx:ItemsModel3D.ItemTemplate>
+
+                </hx:ItemsModel3D>
+
+            </hx:Viewport3DX>
+
+            <Grid 
+                Grid.Row="0" 
+                Grid.Column="0" 
+                Grid.ColumnSpan="4"
+                >
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition/>
+
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="30"/>
+
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+
+                <userControls:Viewer3DMenuView 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    Margin="1"/>
+
+                <Expander
+                    Grid.Row="1" 
+                    Grid.Column="0"
+                    Background="Transparent"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Width="400"
+                    IsExpanded="True"
+                    >
+
+                    <Expander.Header>
+
+                        <TextBlock Text="Объекты на схеме"/>
+
+                    </Expander.Header>
+
+                    <TreeView 
+                        Style="{StaticResource TreeViewExplorerPanel}"
+                        ItemsSource="{Binding FuelTanks}"
+                        ItemTemplate="{StaticResource TanksLevel}"
+                        MaxWidth="380"
+                        MinWidth="380"
+                        HorizontalAlignment="Left"
+                        ScrollViewer.CanContentScroll="False"
+                        >
+
+                        <TreeView.ItemContainerStyle>
+
+                            <Style BasedOn="{StaticResource TreeViewItemStyle}" TargetType="{x:Type TreeViewItem}">
+
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+
+                            </Style>
+
+                        </TreeView.ItemContainerStyle>
+
+                    </TreeView>
+
+                </Expander>   
+                
+            </Grid>
+
+            <Expander 
+                Grid.Column="0" 
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                BorderBrush="Black"
+                BorderThickness="1"
+                Margin="1 0 0 0"
+                Height="100"
+                Background="Transparent"
+                IsExpanded="True"
+                >
+
+                <Expander.Header>
+
+                    <TextBlock Text="Тангаж и крен"/>
+
+                </Expander.Header>
+
+                <Grid Grid.Row="1">
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock 
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Тангаж:"
+                        Style="{StaticResource MahApps.Styles.TextBlock}"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        FontSize="18"
+                        />
+
+                    <TextBlock 
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource MahApps.Styles.TextBlock}"
+                        Text="{Binding ElementName=PitchSlider2, Path=Value}"
+                        FontWeight="Bold"
+                        Background="Transparent"
+                        FontSize="18"
+                        />
+
+                    <Slider
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Style="{StaticResource MahApps.Styles.Slider}"
+                        Name="PitchSlider2"
+                        AutoToolTipPlacement="BottomRight"
+                        AutoToolTipPrecision="1"
+                        Minimum="{Binding MinimumPitch}"
+                        Maximum="{Binding MaximumPitch}"
+                        Value="{Binding PitchValue}"
+                        SelectionStart="{Binding MinimumPitch}"
+                        SelectionEnd="{Binding MaximumPitch}"
+                        TickFrequency="{Binding PitchStep}"
+                        TickPlacement="BottomRight"
+                        IsSelectionRangeEnabled="True"
+                        IsSnapToTickEnabled="True"
+                        IsMoveToPointEnabled="True"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        />
+
+                    <TextBlock 
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Style="{StaticResource MahApps.Styles.TextBlock}"
+                        Text="Крен:"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        FontSize="18"
+                        />
+
+                    <TextBlock 
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MahApps.Styles.TextBlock}"
+                        Text="{Binding ElementName=RollSlider2, Path=Value}"
+                        FontWeight="Bold"
+                        Background="Transparent"
+                        FontSize="18"
+                        />
+
+                    <Slider  
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Name="RollSlider2" 
+                        Style="{StaticResource MahApps.Styles.Slider}"
+                        Minimum="{Binding MinimumRoll}"  
+                        Maximum="{Binding MaximumRoll}" 
+                        Value="{Binding RollValue}"    
+                        SelectionStart="{Binding MinimumRoll}" 
+                        SelectionEnd="{Binding MaximumRoll}"   
+                        AutoToolTipPlacement="BottomRight"  
+                        AutoToolTipPrecision="1"          
+                        TickFrequency="{Binding RollStep}" 
+                        TickPlacement="TopLeft"        
+                        IsSelectionRangeEnabled="True"   
+                        IsSnapToTickEnabled="True"  
+                        IsMoveToPointEnabled="True"   
+                        VerticalAlignment="Center"
+                        />
+
+
+                </Grid>
+
+            </Expander>
+            
+            <StatusBar 
+                Grid.Row="3" 
+                Grid.Column="0" 
+                Grid.ColumnSpan="4"
+                HorizontalAlignment="Stretch" 
+                Style="{StaticResource MahApps.Styles.StatusBar}">
+
+                <StatusBarItem HorizontalAlignment="Left" Margin="1">
+
+                    <TextBlock Text="{Binding MousePositionText}" Width="300"/>
+
+                </StatusBarItem>
+
+                <StatusBarItem HorizontalAlignment="Left" Margin="1">
+
+                    <TextBlock Text="{Binding HitTankItemName}"/>
+
+                </StatusBarItem>
+
+                <StatusBarItem HorizontalAlignment="Left" Margin="1">
+
+                    <TextBlock Text="{Binding HitSensorItemName}"/>
+
+                </StatusBarItem>
+
+            </StatusBar>
+            
+        </Grid>
+
+        <!--Горизонтальный сплиттер-->
+        <GridSplitter Grid.Row="1"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Height="6"
+                      Background="{StaticResource MahApps.Brushes.Gray3}"
+                      />
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <!--Столбец для "тепловой" карты-->
+                <ColumnDefinition Width="1*"/>
+                <!--Сплиттер-->
+                <ColumnDefinition Width="6"/>
+                <!--Вспомогательный столбец-->
+                <ColumnDefinition Width="1*"/>
+                <!--Сплиттер-->
+                <ColumnDefinition Width="6"/>
+                <!--Столбец для графиков-->
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Здесь место для размещения контролов "тепловой" карты-->
+            <Grid Grid.Column="0">
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition/>
+
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="auto"/>
+
+                    <RowDefinition Height="3"/>
+
+                    <RowDefinition Height="auto"/>
+
+                </Grid.RowDefinitions>
+
+                <WpfPlot 
+                    x:Name="HeatMapPlotUp" 
+                    Grid.Row="0"
+                    Background="White"
+                    IsHitTestVisible="False"
+                    BorderBrush="Black"
+                    BorderThickness="0.3"
+                    >
+
+                    <b:Interaction.Triggers>
+
+                        <b:EventTrigger EventName="Loaded">
+
+                            <b:CallMethodAction TargetObject="{Binding}" MethodName="UpHeatMapLoaded"/>
+
+                        </b:EventTrigger>
+
+                    </b:Interaction.Triggers>
+
+                </WpfPlot>
+                
+                <GridSplitter 
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="{StaticResource MahApps.Brushes.Gray3}"
+                    />
+
+                <WpfPlot 
+                    x:Name="HeatMapPlotDown" 
+                    Grid.Row="2"
+                    Background="White"
+                    IsHitTestVisible="False"
+                    BorderBrush="Black"
+                    BorderThickness="0.3"
+                    >
+
+                    <b:Interaction.Triggers>
+
+                        <b:EventTrigger EventName="Loaded">
+
+                            <b:CallMethodAction TargetObject="{Binding}" MethodName="DownHeatMapLoaded"/>
+
+                        </b:EventTrigger>
+
+                    </b:Interaction.Triggers>
+
+                </WpfPlot>
+                
+            </Grid>
+            
+            <GridSplitter Grid.Column="1"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Background="{StaticResource MahApps.Brushes.Gray3}"
+                          />
+
+            <!--А вот это вспомогательный блок-->
+            <Grid Grid.Row="0" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <!--Отображение верхней и нижней точки баков в мировой системе координат-->
+                <userControls:DistantTanksPoints Grid.Row="0">
+                    
+                </userControls:DistantTanksPoints>
+
+                <!--Это контрол, отвечающий за выбор режима расчета-->
+                <userControls:ComputeTypeControl x:Name="ComputeTypeUC" Grid.Row="1"
+                                                 CurrentTab="{Binding SelectedTab}" 
+                                                 ComputeType="{Binding ComputeType}"
+                                                 >
+                </userControls:ComputeTypeControl>
+            </Grid>
+            
+            <GridSplitter Grid.Column="3"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Width="6"
+                          Background="{StaticResource MahApps.Brushes.Gray3}"
+                          />
+
+            <TabControl Grid.Column="4" Grid.Row="0"
+                        Name="GraphicsTab"
+                        Style="{StaticResource MahApps.Styles.TabControl}"
+                        TabStripPlacement="Top"
+                        SelectedIndex="{Binding SelectedTab}"
+                        ItemsSource="{Binding FuelMeasurement.Common.Enums.FuelTankTabControlStates}">
+
+                <!--Закладка, отвечающая за графопостроитель методической погрешности измерений-->
+                <TabItem x:Name="ErrorsTab"
+                                 Style="{StaticResource TabItemStyle}">
+                    <!--Заголовок закладки-->
+                    <TabItem.Header>
+                        <TextBlock 
+                                            Text="МПИ"
+                                            FontSize="22" 
+                                            FontFamily="Verdana" 
+                                            FontWeight="Bold"
+                                            />
+
+                    </TabItem.Header>
+
+                    <!--График методической погрешности измерений-->
+                    <TabItem.Content>
+                        <DockPanel>
+                            <userControls:CursorDataPositions
+                                               DockPanel.Dock="Top" Margin="5, 3, 5, 3"   HorizontalAlignment="Center"
+                                               CurrentVolume="{Binding CurrentVolume}"                
+                                               NearestVolume="{Binding NearestVolume}"               
+                                               CurrentError="{Binding CurrentError}"
+                                               NearestError="{Binding NearestError}"
+                                               />
+                            <WpfPlot x:Name="ScottPlot" SnapsToDevicePixels="True"
+                                             RenderOptions.BitmapScalingMode="HighQuality"
+                                             RenderSize="2000, 1200">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="Loaded">
+                                        <b:InvokeCommandAction 
+                                                Command="{Binding OnErrorsTabLoaded}"
+                                                CommandParameter="{Binding ElementName=ScottPlot}"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </WpfPlot>
+                        </DockPanel>
+
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="CalibrationTab"
+                                 Style="{StaticResource TabItemStyle}">
+                    <TabItem.Header>
+                        <TextBlock 
+                                            Text="Тарировка"
+                                            FontSize="22" 
+                                            FontFamily="Verdana" 
+                                            FontWeight="Bold"
+                                            />
+
+                    </TabItem.Header>
+
+                    <TabItem.Content>
+
+                        <!--График тарировочных кривых-->
+                        <Canvas x:Name="CanvasLeft">
+                            <b:Interaction.Triggers>
+                                <b:EventTrigger EventName="Loaded">
+                                    <b:InvokeCommandAction 
+                                                Command="{Binding OnCanvasViewLoaded}"
+                                                CommandParameter="{Binding ElementName=CanvasLeft}"/>
+                                </b:EventTrigger>
+                                <b:EventTrigger EventName="SizeChanged">
+                                    <b:InvokeCommandAction
+                                                Command="{Binding OnCanvasSizeChanged}"/>
+                                </b:EventTrigger>
+                            </b:Interaction.Triggers>
+                        </Canvas>
+
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="LinearTab"
+                                 Style="{StaticResource TabItemStyle}">
+                    <TabItem.Header>
+
+                        <TextBlock  
+                                            Text="Ёмкость" 
+                                            FontSize="22" 
+                                            FontFamily="Verdana" 
+                                            FontWeight="Bold"
+                                            />
+
+                    </TabItem.Header>
+
+                    <TabItem.Content>
+                        <DockPanel>
+                            <userControls:CapacityPositions
+                                             DockPanel.Dock="Top" Margin="5, 3, 5, 3"   HorizontalAlignment="Center"
+                                             CapacityVolume="{Binding CapacityVolume}"                
+                                             NearestCapacityVolume="{Binding NearestCapacityVolume}"               
+                                             CurrentCapacity="{Binding CurrentCapacity}"
+                                             NearestCapacity="{Binding NearestCapacity}"
+                                          />
+                            <WpfPlot x:Name="CapacityPlot">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="Loaded">
+                                        <b:InvokeCommandAction 
+                                                    Command="{Binding OnCapacityTabLoaded}"
+                                                    CommandParameter="{Binding ElementName=CapacityPlot}"/>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </WpfPlot>
+                        </DockPanel>
+
+                    </TabItem.Content>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

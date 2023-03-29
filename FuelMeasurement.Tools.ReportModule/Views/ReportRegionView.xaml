@@ -1,0 +1,261 @@
+﻿<UserControl x:Class="FuelMeasurement.Tools.ReportModule.Views.ReportRegionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:hx="http://helix-toolkit.org/wpf/SharpDX"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             
+             x:Name="TankReportView"
+             >
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="46" MaxHeight="46"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition MinHeight="46" MaxHeight="46"/>
+        </Grid.RowDefinitions>
+        <Label Content="{Binding WindowHeader}" Grid.Row="0"
+               Style="{DynamicResource MahApps.Styles.Label}"
+               Padding="0" FontSize="18"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+        <Grid Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="46" MaxHeight="46"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.1*"/>
+                <ColumnDefinition Width="0.9*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Заголовок и Viewport для топливного бака-->
+            <Label Grid.Column="0" Grid.Row="0"
+                   Content="Модель"
+                   Style="{DynamicResource MahApps.Styles.Label}"
+                   Padding="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+            <hx:Viewport3DX
+                x:Name="Viewport"
+                Margin="4, 2, 4, 2"
+                Grid.Row="1" Grid.Column="0"
+                VerticalAlignment="Stretch"
+                ClipToBounds="True"
+
+                TextBrush="White"
+                BackgroundColor="LightBlue"
+                CoordinateSystemLabelForeground="DimGray"
+
+                MSAA="Maximum"
+                FXAALevel="Ultra"
+                SSAOQuality="High"
+                
+                EnableSSAO="True"
+                EnableDpiScale="True"
+
+                ShowCoordinateSystem="False"
+                IsCoordinateSystemMoverEnabled="False"
+
+                ShowViewCube="False"
+                IsViewCubeMoverEnabled="False"
+                
+                InfiniteSpin="True"
+                ZoomAroundMouseDownPoint="True"
+                RotateAroundMouseDownPoint="True"
+                IsChangeFieldOfViewEnabled="True"
+                
+                IsZoomEnabled="True"
+                PinchZoomAtCenter="True"
+                IsPinchZoomEnabled="True"
+                
+                RenderOptions.EdgeMode="Unspecified"
+                
+                ShowFrameDetails="False"
+                IsShadowMappingEnabled="True"
+                ZoomExtentsWhenLoaded="False"
+                ShowCameraTarget="True"
+                EnableCursorPosition="True"
+
+                Camera="{Binding Camera}"
+                CameraRotationMode="Turnball"
+                CameraMode="WalkAround"
+                ModelUpDirection="0 1 0"
+                UpDownRotationSensitivity="0.5"
+                LeftRightRotationSensitivity="0.5"
+                LeftRightPanSensitivity="0.5"
+                RotationSensitivity="-0.1"
+
+                EffectsManager="{Binding EffectsManager}"
+                
+                ChangeFieldOfViewCursor="ScrollNS" 
+                PanCursor="Hand" 
+                RotateCursor="SizeAll" 
+                ZoomCursor="SizeNS" 
+                ZoomRectangleCursor="SizeNWSE"
+                ShowCameraInfo="False"
+                ZoomSensitivity="0.5"
+                CameraInertiaFactor="0.5">
+
+                <hx:ShadowMap3D OrthoWidth="1000"/>
+
+                <hx:AmbientLight3D Color="#414141"/>
+
+                <hx:DirectionalLight3D Direction="0, -500, 0"/>
+
+                <hx:DirectionalLight3D Direction="0, 500, 0"/>
+
+                <hx:DirectionalLight3D Direction="500, 0, 0"/>
+
+                <hx:DirectionalLight3D Direction="-500, 0, 0"/>
+
+                <hx:DirectionalLight3D Direction="0, 0, 500"/>
+
+                <hx:DirectionalLight3D Direction="0, 0, -500"/>
+
+                <hx:ItemsModel3D ItemsSource="{Binding FuelTanks}">
+
+                    <hx:ItemsModel3D.ItemTemplate>
+
+                        <DataTemplate DataType="model3D:FuelTank">
+
+                            <hx:CompositeModel3D
+                            Visibility="{Binding Visibility}"
+                            Transform="{Binding Transform}"
+                            >
+
+                                <hx:MeshGeometryModel3D
+                                Geometry="{Binding Geometry}"
+                                Material="{Binding Material}"
+                                CullMode="Back"
+                                InvertNormal="False"
+                                FrontCounterClockwise="False"
+                                IsTransparent="True"
+                                />
+
+                                <hx:MeshGeometryModel3D
+                                Geometry="{Binding Geometry}"
+                                Material="{Binding Material2}"
+                                CullMode="Front"
+                                InvertNormal="False"
+                                FrontCounterClockwise="False"
+                                IsTransparent="True"
+                                />
+
+                            </hx:CompositeModel3D>
+
+                        </DataTemplate>
+
+                    </hx:ItemsModel3D.ItemTemplate>
+
+                </hx:ItemsModel3D>
+
+                <hx:ItemsModel3D
+                    ItemsSource="{Binding FuelSensors}">
+
+                    <hx:ItemsModel3D.ItemTemplate>
+
+                        <DataTemplate DataType="model3D:FuelSensorMesh">
+
+                            <hx:CompositeModel3D
+                                Visibility="{Binding Visibility}"
+                                Transform="{Binding Transform}"
+                                >
+
+                                <hx:MeshGeometryModel3D
+                                    Geometry="{Binding Geometry}"
+                                    Material="{Binding Material}"
+                                    CullMode="Back"
+                                    InvertNormal="False"
+                                    FrontCounterClockwise="False"
+                                    IsTransparent="False"
+                                    />
+
+                                <hx:MeshGeometryModel3D
+                                    Geometry="{Binding Geometry}"
+                                    Material="{Binding Material2}"
+                                    CullMode="Front"
+                                    InvertNormal="False"
+                                    FrontCounterClockwise="False"
+                                    IsTransparent="False"
+                                    />
+
+                                <hx:BillboardTextModel3D
+                                    AlwaysHittable="False"
+                                    Geometry="{Binding Billboard}"
+                                    Visibility="{Binding VisibilityBillboard}"
+                                    FixedSize="True"
+                                    />
+
+                            </hx:CompositeModel3D>
+
+                        </DataTemplate>
+
+                    </hx:ItemsModel3D.ItemTemplate>
+
+                </hx:ItemsModel3D>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction 
+                            Command="{Binding OnViewportViewLoaded}"
+                            CommandParameter="{Binding ElementName=Viewport}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </hx:Viewport3DX>
+
+            <!--Заголовок и канва для тарировочной кривой-->
+            <Label Grid.Row="1" Grid.Column="1"
+                   Content="Тарировочная кривая"
+                   Padding="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"></Label>
+            <Border  Grid.Column="1" Grid.Row="1"
+                  Margin="4, 2, 4, 2"
+                  BorderBrush="Black" BorderThickness="1">
+                <Canvas Background="White"
+                        x:Name="Canvas">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Loaded">
+                            <i:InvokeCommandAction 
+                                Command="{Binding OnCanvasViewLoaded}"
+                                CommandParameter="{Binding ElementName=Canvas}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="SizeChanged">
+                            <i:InvokeCommandAction
+                                Command="{Binding OnCanvasSizeChanged}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Canvas>
+            </Border>
+        </Grid>
+
+        <Grid Row="2" Margin="0, 0, 0, 2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Grid.Row="0"
+                    Style="{DynamicResource MahApps.Styles.Button}"
+                    Content="Сгенерировать отчет"
+                    FontWeight="Bold" Command="{Binding OnGenerateReport}">
+            </Button>
+            <CheckBox Grid.Row="1" Grid.Column="1"
+                      Style="{DynamicResource MahApps.Styles.CheckBox}"
+                      HorizontalAlignment="Center"
+                      HorizontalContentAlignment="Center"
+                      VerticalAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      Content="Относительные показания"
+                      Padding="20, 0, 20, 0"
+                      FontWeight="Bold"        
+                      IsChecked="{Binding Relative}">
+            </CheckBox>
+        </Grid>
+    </Grid>
+</UserControl>

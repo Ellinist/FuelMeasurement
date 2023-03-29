@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="FuelMeasurement.Client.UIModule.UserControls.Viewer3DMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FuelMeasurement.Client.UIModule.UserControls"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             >
+
+    <UserControl.Resources>
+
+        <Style x:Key="MenuStyle" TargetType="Menu" BasedOn="{StaticResource MahApps.Styles.Menu}">
+
+            <Setter Property="Background" Value="LightGray"/>
+
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+
+            <Setter Property="Margin" Value="0"/>
+
+        </Style>
+
+    </UserControl.Resources>
+    
+    <StackPanel Orientation="Vertical">
+
+        <Menu Style="{StaticResource MenuStyle}" >
+
+            <Menu.ItemsPanel>
+
+                <ItemsPanelTemplate>
+
+                    <VirtualizingStackPanel Orientation="Horizontal"/>
+
+                </ItemsPanelTemplate>
+
+            </Menu.ItemsPanel>
+
+            <MenuItem Header="{Binding SwitchViewerModeHeader}" Style="{StaticResource MahApps.Styles.MenuItem}" Command="{Binding SwitchViewerModeCommand}"/>
+
+            <MenuItem Header="Тут" Style="{StaticResource MahApps.Styles.MenuItem}" Width="80"/>
+
+            <MenuItem Header="могла" Style="{StaticResource MahApps.Styles.MenuItem}" Width="80"/>
+
+            <MenuItem Header="быть" Style="{StaticResource MahApps.Styles.MenuItem}" Width="80"/>
+
+            <MenuItem Header="Ваша" Style="{StaticResource MahApps.Styles.MenuItem}" Width="80"/>
+
+            <MenuItem Header="реклама" Style="{StaticResource MahApps.Styles.MenuItem}" Width="80"/>
+
+        </Menu>
+
+    </StackPanel>
+
+</UserControl>

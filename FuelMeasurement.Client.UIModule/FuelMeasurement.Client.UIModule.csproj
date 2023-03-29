@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HelixToolkit.SharpDX.Core.Wpf" Version="2.20.1" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
+    <PackageReference Include="MaterialDesignColors" Version="2.0.4" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.0" />
+    <PackageReference Include="NLog" Version="4.7.13" />
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="ScottPlot" Version="4.1.32" />
+    <PackageReference Include="ScottPlot.WPF" Version="4.1.32" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelMeasurement.Common\FuelMeasurement.Common.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Data.Repositories\FuelMeasurement.Data.Repositories.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Model.Models\FuelMeasurement.Model.Models.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.Plotter\FuelMeasurement.Tools.Plotter.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.Taring\FuelMeasurement.Tools.TaringModule.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="ScottPlot" Version="4.1.32" />
+    <PackageReference Include="ScottPlot.WPF" Version="4.1.32" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelMeasurement.Tools.CalculationData\FuelMeasurement.Tools.CalculationData.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.Compute\FuelMeasurement.Tools.ComputeModule.csproj" />
+  </ItemGroup>
+
+</Project>

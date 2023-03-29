@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <!--<Nullable>enable</Nullable>-->
+	<UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.15.0" />
+    <PackageReference Include="HelixToolkit.SharpDX.Core.Wpf" Version="2.20.1" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="ScottPlot" Version="4.1.32" />
+    <PackageReference Include="ScottPlot.WPF" Version="4.1.32" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelMeasurement.Common.DialogServices\FuelMeasurement.Common.DialogModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Common\FuelMeasurement.Common.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.CalculationData\FuelMeasurement.Tools.CalculationData.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.Compute\FuelMeasurement.Tools.ComputeModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.FileManager\FuelMeasurement.Tools.FileManager.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.Plotter\FuelMeasurement.Tools.Plotter.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.Taring\FuelMeasurement.Tools.TaringModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Client.UIModule\FuelMeasurement.Client.UIModule.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="HelixToolkit.SharpDX.Core.Wpf">
+      <HintPath>C:\Users\Kotarius\.nuget\packages\helixtoolkit.sharpdx.core.wpf\2.20.0\lib\netcoreapp3.1\HelixToolkit.SharpDX.Core.Wpf.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Views\ReportView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
+</Project>

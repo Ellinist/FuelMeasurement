@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>FontAwesome-KiwiBirdSolid_2.ico</ApplicationIcon>
+    <AssemblyVersion>1.0.*</AssemblyVersion>
+    <FileVersion>1.0.*</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Deterministic>False</Deterministic>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Deterministic>False</Deterministic>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="FontAwesome-KiwiBirdSolid_2.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.0" />
+    <PackageReference Include="ControlzEx" Version="5.0.1" />
+    <PackageReference Include="HelixToolkit.SharpDX.Core.Wpf" Version="2.20.1" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
+    <PackageReference Include="MaterialDesignColors" Version="2.0.4" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="NLog" Version="4.7.13" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+    <PackageReference Include="ScottPlot" Version="4.1.33" />
+    <PackageReference Include="ScottPlot.WPF" Version="4.1.32" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelMeasurement.Client.WaitWindowModule\FuelMeasurement.Client.WaitWindowModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Common.DialogServices\FuelMeasurement.Common.DialogModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Data.Repositories\FuelMeasurement.Data.Repositories.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.Compute\FuelMeasurement.Tools.ComputeModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.FileManager\FuelMeasurement.Tools.FileManager.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.Geometry\FuelMeasurement.Tools.Geometry.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.Plotter\FuelMeasurement.Tools.Plotter.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.ReportModule\FuelMeasurement.Tools.ReportModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.Taring\FuelMeasurement.Tools.TaringModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Common.SettingsModule\FuelMeasurement.Common.SettingsModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Client.UIModule\FuelMeasurement.Client.UIModule.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Dictionary.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>

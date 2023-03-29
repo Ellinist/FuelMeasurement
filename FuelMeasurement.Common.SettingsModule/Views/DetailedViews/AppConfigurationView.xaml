@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="FuelMeasurement.Common.SettingsModule.Views.DetailedViews.AppConfigurationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:FuelMeasurement.Common.SettingsModule.Views.DetailedViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="DockPanel.Dock" Value="Top"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="DockPanel.Dock" Value="Top"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" BorderThickness="1">
+            <TextBlock Grid.Row="0" HorizontalAlignment="Center"
+               Text="Параметры для расчета тарировочных кривых"/>
+        </Border>
+        
+        <Grid Grid.Row="1" Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.7*" MinWidth="200"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <TextBlock HorizontalAlignment="Right" Text="Минимальный тангаж:"/>
+                <TextBlock HorizontalAlignment="Right" Text="Максимальный тангаж:"/>
+                <TextBlock HorizontalAlignment="Right" Text="Минимальный крен:"/>
+                <TextBlock HorizontalAlignment="Right" Text="Максимальный крен:"/>
+                <TextBlock HorizontalAlignment="Right" Text="Опорный угол тангажа:"/>
+                <TextBlock HorizontalAlignment="Right" Text="Опорный угол крена:"/>
+                <TextBlock HorizontalAlignment="Right" Text="Шаг тангажа:"/>
+                <TextBlock HorizontalAlignment="Right" Text="Шаг крена:"/>
+                <TextBlock HorizontalAlignment="Right" Text="Расчетные узлы:"/>
+                <TextBlock HorizontalAlignment="Center" Text=""/>
+            </DockPanel>
+            <DockPanel Grid.Column="1">
+                <TextBox HorizontalAlignment="Center" BorderThickness="0" Text="{Binding MinPitch}" IsEnabled="{Binding IsFieldsEnabled}"/>
+                <TextBox HorizontalAlignment="Center" BorderThickness="0" Text="{Binding MaxPitch}" IsEnabled="{Binding IsFieldsEnabled}"/>
+                <TextBox HorizontalAlignment="Center" BorderThickness="0" Text="{Binding MinRoll}" IsEnabled="{Binding IsFieldsEnabled}"/>
+                <TextBox HorizontalAlignment="Center" BorderThickness="0" Text="{Binding MaxRoll}" IsEnabled="{Binding IsFieldsEnabled}"/>
+                <TextBox HorizontalAlignment="Center" BorderThickness="0" Text="{Binding ReferencedPitch}" IsEnabled="{Binding IsFieldsEnabled}"/>
+                <TextBox HorizontalAlignment="Center" BorderThickness="0" Text="{Binding ReferencedRoll}" IsEnabled="{Binding IsFieldsEnabled}"/>
+                <TextBox HorizontalAlignment="Center" BorderThickness="0" Text="{Binding PitchStep}" IsEnabled="{Binding IsFieldsEnabled}"/>
+                <TextBox HorizontalAlignment="Center" BorderThickness="0" Text="{Binding RollStep}" IsEnabled="{Binding IsFieldsEnabled}"/>
+                <TextBox HorizontalAlignment="Center" BorderThickness="0" Text="{Binding NodesQuantity}" IsEnabled="{Binding IsFieldsEnabled}"/>
+                <TextBlock HorizontalAlignment="Center" Text=""/>
+            </DockPanel>
+            <DockPanel Grid.Column="2">
+                <TextBlock HorizontalAlignment="Left" Text="(Минимальный расчетный угол тангажа, градусы )"/>
+                <TextBlock HorizontalAlignment="Left" Text="(Максимальный расчетный угол тангажа, градусы)"/>
+                <TextBlock HorizontalAlignment="Left" Text="(Минимальный расчетный угол крена, градусы)"/>
+                <TextBlock HorizontalAlignment="Left" Text="(Максимальный расчетный угол крена, градусы)"/>
+                <TextBlock HorizontalAlignment="Left" Text="(Опорный угол тангажа - для расчетов, градусы)"/>
+                <TextBlock HorizontalAlignment="Left" Text="(Опорный угол крена - для расчетов, градусы)"/>
+                <TextBlock HorizontalAlignment="Left" Text="(Приращение угла тангажа, градусы)"/>
+                <TextBlock HorizontalAlignment="Left" Text="(Приращение угла крена, градусы)"/>
+                <TextBlock HorizontalAlignment="Left" Text="(Количество расчетных срезов топливного бака - для тарировочной кривой, единицы)"/>
+                <TextBlock HorizontalAlignment="Center" Text=""/>
+            </DockPanel>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" MinWidth="280"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Content="Изменить для текущей ветви"
+                    Command="{Binding EditCommand}" Cursor="Hand"/>
+            <Button Grid.Column="1" MinWidth="280" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Content="Сохранить изменения"
+                    Command="{Binding SaveCommand}"/>
+        </Grid>
+    </Grid>
+</UserControl>

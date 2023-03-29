@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelMeasurement.Model.DTO\FuelMeasurement.Model.DTO.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Model.Models\FuelMeasurement.Model.Models.csproj" />
+  </ItemGroup>
+
+</Project>

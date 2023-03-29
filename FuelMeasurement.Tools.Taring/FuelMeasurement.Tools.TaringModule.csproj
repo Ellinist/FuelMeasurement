@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!--<Nullable>enable</Nullable>-->
+	<!--<UseWPF>true</UseWPF>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.0" />
+    <PackageReference Include="NLog" Version="4.7.13" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelMeasurement.Client.WaitWindowModule\FuelMeasurement.Client.WaitWindowModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Common.DialogServices\FuelMeasurement.Common.DialogModule.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Model.DTO\FuelMeasurement.Model.DTO.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Model.Models\FuelMeasurement.Model.Models.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.CalculationData\FuelMeasurement.Tools.CalculationData.csproj" />
+  </ItemGroup>
+
+</Project>

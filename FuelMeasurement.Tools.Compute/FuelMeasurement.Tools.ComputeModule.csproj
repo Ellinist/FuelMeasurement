@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+	<UseWPF>true</UseWPF>  
+    <!--<ImplicitUsings>enable</ImplicitUsings>-->
+    <!--<Nullable>enable</Nullable>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AssimpNet" Version="4.1.0" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FuelMeasurement.Common\FuelMeasurement.Common.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Model.DTO\FuelMeasurement.Model.DTO.csproj" />
+    <ProjectReference Include="..\FuelMeasurement.Tools.CalculationData\FuelMeasurement.Tools.CalculationData.csproj" />
+  </ItemGroup>
+
+</Project>

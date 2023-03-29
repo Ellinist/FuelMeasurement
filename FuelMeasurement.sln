@@ -1,0 +1,149 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{2064CEE6-1534-47DD-8C32-618B85CDA230}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{17D93102-9292-40B1-A1D7-85CCFF41B643}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{0B8AD4A6-B8BA-43B8-81ED-A56CAE4552F2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Client", "FuelMeasurement.Client\FuelMeasurement.Client.csproj", "{0CD99CD5-7530-484D-A83D-103019899454}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Common", "FuelMeasurement.Common\FuelMeasurement.Common.csproj", "{EACAB4A3-B2B0-44E7-B24B-209014C011F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{4FC63392-9190-473D-85FF-6A93535C10D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DTOModels", "DTOModels", "{23FA2331-DC3D-4B5E-8029-5FA0218A74BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Model.DTO", "FuelMeasurement.Model.DTO\FuelMeasurement.Model.DTO.csproj", "{D8320AE7-A5F3-468A-B05C-5A5059F42C90}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Client.UIModule", "FuelMeasurement.Client.UIModule\FuelMeasurement.Client.UIModule.csproj", "{E423B16B-C66D-43D1-A115-15E366CAE9DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{9D5BEFC8-524D-43B4-9B12-095C34F4E058}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Data.Repositories", "FuelMeasurement.Data.Repositories\FuelMeasurement.Data.Repositories.csproj", "{3346AFE5-2378-48BB-B691-ABF17E23CE65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Tools.Geometry", "FuelMeasurement.Tools.Geometry\FuelMeasurement.Tools.Geometry.csproj", "{8CAB302E-A62F-4115-B634-FA498BB3230B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeometryModels", "GeometryModels", "{38431FB4-BD1C-4CFC-AD77-F269C808177F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Model.Models", "FuelMeasurement.Model.Models\FuelMeasurement.Model.Models.csproj", "{248E3F08-ED45-468D-9774-61ECD4C2E127}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Tools.CalculationData", "FuelMeasurement.Tools.CalculationData\FuelMeasurement.Tools.CalculationData.csproj", "{CD2CCD84-2946-4C86-8909-3E18692E459E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Tools.TaringModule", "FuelMeasurement.Tools.Taring\FuelMeasurement.Tools.TaringModule.csproj", "{E321309A-DDB5-4B62-BE83-04D134D1061A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Tools.ComputeModule", "FuelMeasurement.Tools.Compute\FuelMeasurement.Tools.ComputeModule.csproj", "{46F5802C-5388-4B18-947E-52ED6C107EEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Tools.ReportModule", "FuelMeasurement.Tools.ReportModule\FuelMeasurement.Tools.ReportModule.csproj", "{11D96647-281F-4CF4-A6F5-3A3A87FC1384}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Client.WaitWindowModule", "FuelMeasurement.Client.WaitWindowModule\FuelMeasurement.Client.WaitWindowModule.csproj", "{158EA414-C619-408E-8DF5-7DE7CF42217C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Tools.Plotter", "FuelMeasurement.Tools.Plotter\FuelMeasurement.Tools.Plotter.csproj", "{A22047B1-55C1-441E-919F-A96D7E29A85C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Common.SettingsModule", "FuelMeasurement.Common.SettingsModule\FuelMeasurement.Common.SettingsModule.csproj", "{A04B7EB1-7EC8-4B5C-87C2-0478CBC0FA28}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuelMeasurement.Common.DialogModule", "FuelMeasurement.Common.DialogServices\FuelMeasurement.Common.DialogModule.csproj", "{096BB184-6712-4C85-9975-A86D45C85A59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelMeasurement.Tools.FileManager", "FuelMeasurement.Tools.FileManager\FuelMeasurement.Tools.FileManager.csproj", "{3884BECD-80E0-4125-B870-A3307B03D938}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CD99CD5-7530-484D-A83D-103019899454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CD99CD5-7530-484D-A83D-103019899454}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CD99CD5-7530-484D-A83D-103019899454}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CD99CD5-7530-484D-A83D-103019899454}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EACAB4A3-B2B0-44E7-B24B-209014C011F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EACAB4A3-B2B0-44E7-B24B-209014C011F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EACAB4A3-B2B0-44E7-B24B-209014C011F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EACAB4A3-B2B0-44E7-B24B-209014C011F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8320AE7-A5F3-468A-B05C-5A5059F42C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8320AE7-A5F3-468A-B05C-5A5059F42C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8320AE7-A5F3-468A-B05C-5A5059F42C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8320AE7-A5F3-468A-B05C-5A5059F42C90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E423B16B-C66D-43D1-A115-15E366CAE9DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E423B16B-C66D-43D1-A115-15E366CAE9DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E423B16B-C66D-43D1-A115-15E366CAE9DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E423B16B-C66D-43D1-A115-15E366CAE9DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3346AFE5-2378-48BB-B691-ABF17E23CE65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3346AFE5-2378-48BB-B691-ABF17E23CE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3346AFE5-2378-48BB-B691-ABF17E23CE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3346AFE5-2378-48BB-B691-ABF17E23CE65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CAB302E-A62F-4115-B634-FA498BB3230B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CAB302E-A62F-4115-B634-FA498BB3230B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CAB302E-A62F-4115-B634-FA498BB3230B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CAB302E-A62F-4115-B634-FA498BB3230B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{248E3F08-ED45-468D-9774-61ECD4C2E127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{248E3F08-ED45-468D-9774-61ECD4C2E127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{248E3F08-ED45-468D-9774-61ECD4C2E127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{248E3F08-ED45-468D-9774-61ECD4C2E127}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD2CCD84-2946-4C86-8909-3E18692E459E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD2CCD84-2946-4C86-8909-3E18692E459E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD2CCD84-2946-4C86-8909-3E18692E459E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD2CCD84-2946-4C86-8909-3E18692E459E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E321309A-DDB5-4B62-BE83-04D134D1061A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E321309A-DDB5-4B62-BE83-04D134D1061A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E321309A-DDB5-4B62-BE83-04D134D1061A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E321309A-DDB5-4B62-BE83-04D134D1061A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46F5802C-5388-4B18-947E-52ED6C107EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46F5802C-5388-4B18-947E-52ED6C107EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46F5802C-5388-4B18-947E-52ED6C107EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46F5802C-5388-4B18-947E-52ED6C107EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11D96647-281F-4CF4-A6F5-3A3A87FC1384}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11D96647-281F-4CF4-A6F5-3A3A87FC1384}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11D96647-281F-4CF4-A6F5-3A3A87FC1384}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11D96647-281F-4CF4-A6F5-3A3A87FC1384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{158EA414-C619-408E-8DF5-7DE7CF42217C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{158EA414-C619-408E-8DF5-7DE7CF42217C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{158EA414-C619-408E-8DF5-7DE7CF42217C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{158EA414-C619-408E-8DF5-7DE7CF42217C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A22047B1-55C1-441E-919F-A96D7E29A85C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A22047B1-55C1-441E-919F-A96D7E29A85C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A22047B1-55C1-441E-919F-A96D7E29A85C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A22047B1-55C1-441E-919F-A96D7E29A85C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A04B7EB1-7EC8-4B5C-87C2-0478CBC0FA28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A04B7EB1-7EC8-4B5C-87C2-0478CBC0FA28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A04B7EB1-7EC8-4B5C-87C2-0478CBC0FA28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A04B7EB1-7EC8-4B5C-87C2-0478CBC0FA28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{096BB184-6712-4C85-9975-A86D45C85A59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{096BB184-6712-4C85-9975-A86D45C85A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{096BB184-6712-4C85-9975-A86D45C85A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{096BB184-6712-4C85-9975-A86D45C85A59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3884BECD-80E0-4125-B870-A3307B03D938}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3884BECD-80E0-4125-B870-A3307B03D938}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3884BECD-80E0-4125-B870-A3307B03D938}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3884BECD-80E0-4125-B870-A3307B03D938}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0CD99CD5-7530-484D-A83D-103019899454} = {17D93102-9292-40B1-A1D7-85CCFF41B643}
+		{EACAB4A3-B2B0-44E7-B24B-209014C011F0} = {2064CEE6-1534-47DD-8C32-618B85CDA230}
+		{23FA2331-DC3D-4B5E-8029-5FA0218A74BE} = {4FC63392-9190-473D-85FF-6A93535C10D4}
+		{D8320AE7-A5F3-468A-B05C-5A5059F42C90} = {23FA2331-DC3D-4B5E-8029-5FA0218A74BE}
+		{E423B16B-C66D-43D1-A115-15E366CAE9DA} = {17D93102-9292-40B1-A1D7-85CCFF41B643}
+		{3346AFE5-2378-48BB-B691-ABF17E23CE65} = {9D5BEFC8-524D-43B4-9B12-095C34F4E058}
+		{8CAB302E-A62F-4115-B634-FA498BB3230B} = {0B8AD4A6-B8BA-43B8-81ED-A56CAE4552F2}
+		{38431FB4-BD1C-4CFC-AD77-F269C808177F} = {4FC63392-9190-473D-85FF-6A93535C10D4}
+		{248E3F08-ED45-468D-9774-61ECD4C2E127} = {38431FB4-BD1C-4CFC-AD77-F269C808177F}
+		{CD2CCD84-2946-4C86-8909-3E18692E459E} = {0B8AD4A6-B8BA-43B8-81ED-A56CAE4552F2}
+		{E321309A-DDB5-4B62-BE83-04D134D1061A} = {0B8AD4A6-B8BA-43B8-81ED-A56CAE4552F2}
+		{46F5802C-5388-4B18-947E-52ED6C107EEE} = {0B8AD4A6-B8BA-43B8-81ED-A56CAE4552F2}
+		{11D96647-281F-4CF4-A6F5-3A3A87FC1384} = {0B8AD4A6-B8BA-43B8-81ED-A56CAE4552F2}
+		{158EA414-C619-408E-8DF5-7DE7CF42217C} = {17D93102-9292-40B1-A1D7-85CCFF41B643}
+		{A22047B1-55C1-441E-919F-A96D7E29A85C} = {0B8AD4A6-B8BA-43B8-81ED-A56CAE4552F2}
+		{A04B7EB1-7EC8-4B5C-87C2-0478CBC0FA28} = {2064CEE6-1534-47DD-8C32-618B85CDA230}
+		{096BB184-6712-4C85-9975-A86D45C85A59} = {2064CEE6-1534-47DD-8C32-618B85CDA230}
+		{3884BECD-80E0-4125-B870-A3307B03D938} = {0B8AD4A6-B8BA-43B8-81ED-A56CAE4552F2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2546865B-D9EA-4DB2-B41F-1EFC321259BA}
+	EndGlobalSection
+EndGlobal
